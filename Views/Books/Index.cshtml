@@ -1,0 +1,152 @@
+﻿@model IEnumerable<Lab3.Models.Book>
+
+@{
+    ViewData["Title"] = "Books";
+}
+
+<h1>Browse Books</h1>
+
+
+
+<p>
+    @if (Lab3.Models.User.Administrator)
+    {
+        <a asp-action="Create">Add new Book</a>
+    }
+</p>
+
+<form asp-controller="Books" asp-action="Index" method="get">
+    @{
+        bool hidden;
+        try
+        {
+            hidden = bool.Parse(Context.Request.Query["hideFilter"]);
+        }
+        catch
+        {
+            hidden = true;
+        }
+    }
+    <div id="filters" hidden=@hidden>
+        <div class="row align-items-end row justify-content-start">
+            <input type="hidden" id="hideFilter" name="hideFilter" value="@hidden.ToString()" />
+            <div class="col">
+                Title: <input type="text" name="title" class="form-control" value=@Context.Request.Query["title"]>
+            </div>
+            <div class="col">
+                Author: <input type="text" name="author" class="form-control" value=@Context.Request.Query["author"]>
+            </div>
+            <div class="col-auto">
+                Published After: <input type="date" name="date" class="form-control" value=@Context.Request.Query["date"]>
+            </div>
+            <div class="col-auto">
+                <input type="submit" value="Filter" class="btn btn-outline-primary" />
+            </div>
+        </div>
+        <div class="row m-1">
+            <div class="col">
+                <input type="button" value="Hide Filters" class="btn btn-primary" onclick="hideFilters();" />
+            </div>
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="col" id="showFilters" hidden=@(!hidden)>
+            <input type="button" value="Show Filters" class="btn btn-primary" onclick="showFilters();" />
+        </div>
+    </div>
+
+    @{
+        if (!string.IsNullOrEmpty(Context.Request.Query["title"]) ||
+            !string.IsNullOrEmpty(Context.Request.Query["author"]) ||
+            !string.IsNullOrEmpty(Context.Request.Query["date"]))
+        {
+            <div class="row m-1">
+                <div class="col">
+                    <input type="button" value="Remove Filters" class="btn btn-outline-danger"
+                           onclick="location.href='@Url.Action("Index", "Books")'" />
+                </div>
+            </div>
+        }
+    }
+
+</form>
+
+<table class="table" style="table-layout: auto; width: 100%;">
+    <thead >
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.title)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.authors)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.language)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.edition)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.publishingdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.publishername)
+            </th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.title)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.authors)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.language)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.edition)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.publishingdate)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.publishername)
+            </td>
+            <td>
+                @if (Lab3.Models.User.Administrator)
+                {
+                    <div class="row">
+                        <a asp-action="Edit" asp-route-id="@item.publishingid">Edit</a>
+                    </div>
+                }
+                <div class="row">
+                    <a asp-action="Details" asp-route-id="@item.publishingid">Details</a>
+                </div>
+                @if (Lab3.Models.User.Administrator)
+                {
+                    <div class="row">
+                        <a asp-action="Delete" asp-route-id="@item.publishingid">Delete</a>
+                    </div>
+                }
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
+
+<script>
+    function hideFilters() {
+        $("#filters").attr("hidden", true);
+        $("#showFilters").attr("hidden", false);
+        $("#hideFilter").attr("value", "true");
+    }
+
+    function showFilters() {
+        $("#showFilters").attr("hidden", true);
+        $("#filters").attr("hidden", false);
+        $("#hideFilter").attr("value", "false");
+    }
+</script>

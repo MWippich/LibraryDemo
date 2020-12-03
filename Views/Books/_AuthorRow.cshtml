@@ -1,0 +1,18 @@
+﻿@model Lab3.Models.Author
+
+
+<div class="form-group" id="@ViewData["ID"]">
+    <input type="hidden" name="Author.Index" value="@ViewData["ID"]" />
+    <div class="row justify-content-left">
+        <div class="col">
+            <input asp-for="authorname" class="form-control" name="Authors[@ViewData["ID"]].authorname" id="authorname" />
+        </div>
+        <div class="col-auto">
+            <input type="button" class="btn btn-outline-danger" value="Remove" onclick="removeRow(@ViewData["ID"]);">
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

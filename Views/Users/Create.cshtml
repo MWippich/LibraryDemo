@@ -1,0 +1,92 @@
+﻿@using Lab3.Models
+@model Lab3.Models.User
+
+@{
+    ViewData["Title"] = "Create";
+}
+
+<h1>Create</h1>
+
+<h4>User</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Create">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                User Type: <select name="userType" class="form-control" onchange="changeType(this.value)">
+                    <option value="Student">Student</option>
+                    <option value="Administrator">Administrator</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label asp-for="username" class="control-label"></label>
+                <input asp-for="username" class="form-control" />
+                <span asp-validation-for="username" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="emailaccount" class="control-label"></label>
+                <input asp-for="emailaccount" class="form-control" />
+                <span asp-validation-for="emailaccount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="phonenumber" class="control-label"></label>
+                <input asp-for="phonenumber" class="form-control" />
+                <span asp-validation-for="phonenumber" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="dateofbirth" class="control-label"></label>
+                <input asp-for="dateofbirth" class="form-control" />
+                <span asp-validation-for="dateofbirth" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="address" class="control-label"></label>
+                <input asp-for="address" class="form-control" />
+                <span asp-validation-for="address" class="text-danger"></span>
+            </div>
+            <div class="form-group" id="programmeField">
+                <label class="control-label">Programme</label>
+                <select name="programme" class="form-control">
+                    <option name="programme" value=-1>Choose a programme</option>
+                    @foreach (var item in ((IEnumerable<Lab3.Models.Programme>)ViewData["programmes"]))
+                    {
+                        <option name="programme" value=@item.programmeid>@item.programmename</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group" id="deptField" hidden="true">
+                <label class="control-label">Department</label>
+                <select name="department" class="form-control">
+                    <option name="department" value=-1>Choose a department</option>
+                    @foreach (var item in ((IEnumerable<Lab3.Models.Department>)ViewData["departments"]))
+                    {
+                        <option name="department" value=@item.departmentid>@item.departmentname</option>
+                    }
+                </select>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Create" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}
+
+<script>
+    function changeType(option) {
+        if (option == "Administrator") {
+            $("#deptField").attr("hidden", false);
+            $("#programmeField").attr("hidden", true);
+        } else if (option == "Student") {
+            $("#deptField").attr("hidden", true);
+            $("#programmeField").attr("hidden", false);
+        }
+    }
+</script>

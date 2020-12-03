@@ -1,0 +1,72 @@
+﻿@model Lab3.Models.Book
+
+@{
+    ViewData["Title"] = "Edit";
+}
+
+<h1>Edit</h1>
+
+<h4>Book</h4>
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <input type="hidden" asp-for="bookid" />
+            <input type="hidden" asp-for="bookinfoid" />
+            <input type="hidden" asp-for="publishingid" />
+            <input type="hidden" asp-for="publisherid" />
+            <div class="form-group">
+                <label asp-for="title" class="control-label"></label>
+                <input asp-for="title" class="form-control" />
+                <span asp-validation-for="title" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="isbn" class="control-label"></label>
+                <input asp-for="isbn" class="form-control" />
+                <span asp-validation-for="isbn" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="edition" class="control-label"></label>
+                <input asp-for="edition" class="form-control" />
+                <span asp-validation-for="edition" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="publishingdate" class="control-label"></label>
+                <input asp-for="publishingdate" class="form-control" />
+                <span asp-validation-for="publishingdate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="pagecount" class="control-label"></label>
+                <input asp-for="pagecount" class="form-control" />
+                <span asp-validation-for="pagecount" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="publishername" class="control-label"></label>
+                <input asp-for="publishername" class="form-control" />
+                <span asp-validation-for="publishername" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="prequelid" class="control-label"></label>
+                <input asp-for="prequelid" class="form-control" />
+                <span asp-validation-for="prequelid" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="series" class="control-label"></label>
+                <input asp-for="series" class="form-control" />
+                <span asp-validation-for="series" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Save" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

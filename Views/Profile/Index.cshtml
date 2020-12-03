@@ -1,0 +1,76 @@
+﻿@model Lab3.Models.User
+
+@{
+    ViewData["Title"] = "Profile";
+
+    String userType;
+    if (Model is Administrator)
+    {
+        userType = "Administrator";
+    }
+    else
+    {
+        userType = "Student";
+    }
+}
+
+<h1>User Profile</h1>
+
+<div>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            <a>User Type</a>
+        </dt>
+        <dd class="col-sm-10">
+            <a>@userType</a>
+        </dd><dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.username)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.emailaccount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.emailaccount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.phonenumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.phonenumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.dateofbirth)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.dateofbirth)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.address)
+        </dd>
+        @if (userType == "Administrator")
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => ((Administrator)model).departmentname)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => ((Administrator)model).departmentname)
+            </dd>
+        }
+        else
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => ((Student)model).programmename)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => ((Student)model).programmename)
+            </dd>
+        }
+    </dl>
+</div>

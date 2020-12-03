@@ -1,0 +1,52 @@
+﻿@model IEnumerable<Lab3.Models.Borrow>
+
+@{
+    ViewData["Title"] = "Borrows";
+}
+
+<h1>Borrows</h1>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.itemid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.userid)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.borrowingdate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.expirydate)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.returndate)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.itemid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.borrowingdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.expirydate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.returndate)
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>

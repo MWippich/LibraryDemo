@@ -1,0 +1,161 @@
+﻿@model Lab3.Models.User
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>User</h4>
+    <hr />
+    <dl class="row">
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.username)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.username)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.emailaccount)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.emailaccount)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.phonenumber)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.phonenumber)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.dateofbirth)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.dateofbirth)
+        </dd>
+        <dt class="col-sm-2">
+            @Html.DisplayNameFor(model => model.address)
+        </dt>
+        <dd class="col-sm-10">
+            @Html.DisplayFor(model => model.address)
+        </dd>
+        @if (Model is Administrator)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => ((Administrator)model).departmentname)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => ((Administrator)model).departmentname)
+            </dd>
+        }
+        else if (Model is Student)
+        {
+            <dt class="col-sm-2">
+                @Html.DisplayNameFor(model => ((Student)model).programmename)
+            </dt>
+            <dd class="col-sm-10">
+                @Html.DisplayFor(model => ((Student)model).programmename)
+            </dd>
+        }
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.userid">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>
+
+<h3>Borrows</h3>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>Item ID</a>
+            </th>
+            <th>
+                <a>User ID</a>
+            </th>
+            <th>
+                <a>Borrow Date</a>
+            </th>
+            <th>
+                <a>Expiry Date</a>
+            </th>
+            <th>
+                <a>Return Date</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (IEnumerable<Lab3.Models.Borrow>)ViewData["borrows"])
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.itemid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.userid)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.borrowingdate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.expirydate)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.returndate)
+                </td>
+                @if (item.returndate == null)
+                {
+                    <td>
+                        <a asp-action="ReturnBook" asp-route-borrowID="@item.borrowid">Return</a>
+                    </td>
+                }
+            </tr>
+        }
+    </tbody>
+</table>
+<h4>Fines</h4>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                <a>Amount</a>
+            </th>
+            <th>
+                <a>Paid</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in (IEnumerable<Lab3.Models.Fine>) ViewData["fines"])
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.amount)
+                </td>
+                @if (item.paid == false)
+                {
+                    <td>
+                        No
+                    </td>
+                }
+                else
+                {
+                    <td>
+                        Yes
+                    </td>
+                }
+                @if (item.paid == false)
+                {
+                    <td>
+                        <a asp-action="PayFine" asp-route-borrowID="@item.borrowid">Pay</a>
+                    </td>
+                }
+            </tr>
+        }
+        

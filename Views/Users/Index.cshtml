@@ -1,0 +1,182 @@
+﻿@model IEnumerable<Lab3.Models.User>
+
+@{
+    ViewData["Title"] = "Index";
+
+}
+
+<h1>Index</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+
+<form asp-controller="Users" asp-action="Index" method="get">
+    @{
+        bool hidden;
+        try
+        {
+            hidden = bool.Parse(Context.Request.Query["hideFilter"]);
+        }
+        catch
+        {
+            hidden = true;
+        }
+    }
+    <div id="filters" hidden=@hidden>
+        <div class="row align-items-end row justify-content-start">
+            <input type="hidden" id="hideFilter" name="hideFilter" value="@hidden.ToString()" />
+            <div class="col">
+                Name: <input type="text" name="username" class="form-control" value=@Context.Request.Query["username"]>
+            </div>
+            <div class="col">
+                Email: <input type="text" name="email" class="form-control" value=@Context.Request.Query["email"]>
+            </div>
+            <div class="col-auto">
+                Born After: <input type="date" name="bornAfter" class="form-control" value=@Context.Request.Query["bornAfter"]>
+            </div>
+            <div class="col-auto">
+                User Type: <select name="userType" class="form-control">
+                    @{
+                        try
+                        {
+                            String prev = Context.Request.Query["userType"];
+                            <option value=""></option>
+                            if (prev == "Administrator")
+                            {
+                                <option value="Administrator" selected>Administrator</option>
+                                <option value="Student">Student</option>
+                            }
+                            else if (prev == "Student")
+                            {
+                                <option value="Student" selected>Student</option>
+                                <option value="Administrator">Administrator</option>
+                            }
+                            else
+                            {
+                                <option value="Administrator">Administrator</option>
+                                <option value="Student">Student</option>
+                            }
+                        }
+                        catch
+                        {
+                            <option value="" selected></option>
+                            <option value="Administrator">Administrator</option>
+                            <option value="Student">Student</option>
+                        }
+
+                    }
+                </select>
+            </div>
+
+            <div class="col-auto">
+                <input type="submit" value="Filter" class="btn btn-outline-primary" />
+            </div>
+        </div>
+        <div class="row m-1">
+            <div class="col">
+                <input type="button" value="Hide Filters" class="btn btn-primary" onclick="hideFilters();" />
+            </div>
+        </div>
+    </div>
+    <div class="row m-1">
+        <div class="col" id="showFilters" hidden=@(!hidden)>
+            <input type="button" value="Show Filters" class="btn btn-primary" onclick="showFilters();" />
+        </div>
+    </div>
+
+    @{
+        if (!string.IsNullOrEmpty(Context.Request.Query["title"]) ||
+            !string.IsNullOrEmpty(Context.Request.Query["author"]) ||
+            !string.IsNullOrEmpty(Context.Request.Query["date"]))
+        {
+            <div class="row m-1">
+                <div class="col">
+                    <input type="button" value="Remove Filters" class="btn btn-outline-danger"
+                           onclick="location.href='@Url.Action("Index", "Books")'" />
+                </div>
+            </div>
+        }
+    }
+
+</form>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.username)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.emailaccount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.phonenumber)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.dateofbirth)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.address)
+            </th>
+            <th>
+                <a>User Type</a>
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var item in Model)
+        {
+            String type;
+            @if (item is Administrator)
+            {
+                type = "Administrator";
+            }
+            else
+            {
+                type = "Student";
+            }
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.username)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.emailaccount)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.phonenumber)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.dateofbirth)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.address)
+                </td>
+                <td>
+                    <a>@type</a>
+                </td>
+                <td>
+                    <a asp-action="Edit" asp-route-id="@item.userid" asp-route-type="@type">Edit</a> |
+                    <a asp-action="Details" asp-route-id="@item.userid" asp-route-type="@type">Details</a> |
+                    <a asp-action="Delete" asp-route-id="@item.userid" asp-route-type="@type">Delete</a>
+                </td>
+            </tr>
+        }
+    </tbody>
+</table>
+
+
+<script>
+    function hideFilters() {
+        $("#filters").attr("hidden", true);
+        $("#showFilters").attr("hidden", false);
+        $("#hideFilter").attr("value", "true");
+    }
+
+    function showFilters() {
+        $("#showFilters").attr("hidden", true);
+        $("#filters").attr("hidden", false);
+        $("#hideFilter").attr("value", "false");
+    }
+</script>

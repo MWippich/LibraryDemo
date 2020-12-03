@@ -1,0 +1,41 @@
+﻿@model IEnumerable<Lab3.Models.Fine>
+
+@{
+    ViewData["Title"] = "View";
+}
+
+<h1>View</h1>
+
+<p>
+    <a asp-action="Create">Create New</a>
+</p>
+<table class="table">
+    <thead>
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.amount)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.paid)
+            </th>
+            <th></th>
+        </tr>
+    </thead>
+    <tbody>
+@foreach (var item in Model) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.amount)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.paid)
+            </td>
+            <td>
+                <a asp-action="Edit" asp-route-id="@item.borrowid">Edit</a> |
+                <a asp-action="Details" asp-route-id="@item.borrowid">Details</a> |
+                <a asp-action="Delete" asp-route-id="@item.borrowid">Delete</a>
+            </td>
+        </tr>
+}
+    </tbody>
+</table>
